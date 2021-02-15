@@ -9,9 +9,10 @@ play_width = 300
 play_height = 600  
 block_size = 30
 n_block = 10
+n_shapes = 7
 
 # SHAPE FORMATS
- 
+ #2D represent rotation
 S = [[\'.....\',
       \'......\',
       \'..00..\',
@@ -117,9 +118,20 @@ T = [[\'.....\',
       \'.....\'
       ]]
 
+#globals
+
+shapes = [S, Z, I, O, J, L, T]
+shape_colors = [(0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0), (255, 165, 0), (0, 0, 255), (128, 0, 128)]
+
 
 class Piece(object):
-    pass
+    def __init__(self, x, y, shape):
+        self.x = x
+        self.y = y
+        self.shape = shape
+        self.color = shape_colors[shapes.index(shape)]
+        self.rotation = 0
+
  
 def create_grid(locked_positions={}):
     pass
