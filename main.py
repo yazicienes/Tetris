@@ -11,11 +11,12 @@ block_size = 30
 n_block = 10
 n_shapes = 7
 
-top_left_x = 0
-top_left_y = 0
+top_left_x = (s_width - play_width) / 4
+top_left_y = s_height - play_height
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+GRAY = (128, 128, 128)
 
 # SHAPE FORMATS
  #2D represent rotation
@@ -168,14 +169,12 @@ def get_shape():
 def draw_text_middle(text, size, color, surface):
     pass
    
-def draw_grid(surface, grid):
-    #draw grid
+def draw_grid_lines(surface, grid):
+    #draw grid lines
     for i in range (len(grid)):
-        for j in range(len(grid[i])):
-            pygame.draw.rect(surface, grid[i][j], (top_left_x + j*block_size, top_left_y + i*block_size), 0)
-    
-    pygame.draw.rect(surface, RED, (top_left_x, top_left_y, play_width, play_height), 4)
-
+        pygame.draw.line(surface, GRAY, (top_left_x, top_left_y+ i*block_size), (top_left_x+play_width, top_left_y+ i*play_height))
+        for j in range (len(grid[i])):
+            pygame.draw.line(surface, GRAY, (top_left_x, top_left_y+ j*block_size), (top_left_x+ play_width, top_left_y+play_height))
  
 def clear_rows(grid, locked):
     pass
@@ -194,7 +193,14 @@ def draw_window(surface, grid):
     #draw label at the middle of the screen
     surface.blit(label, (top_left_x, play_width/2-(label.get_width()/2), 30))
 
-    draw_grid(surface, grid)
+    #draw grid
+    for i in range (len(grid)):
+        for j in range(len(grid[i])):
+            pygame.draw.rect(surface, grid[i][j], (top_left_x + j*block_size, top_left_y + i*block_size), 0)
+    
+    pygame.draw.rect(surface, RED, (top_left_x, top_left_y, play_width, play_height), 4)
+
+    draw_grid_lines(surface, grid)
     pygame.display.update()
  
 def main(win):
