@@ -165,22 +165,14 @@ def get_shape():
 def draw_text_middle(text, size, color, surface):
     pass
    
-def draw_grid(surface, row, col):
-    surface.fill(BLACK)
-    #title
-    pygame.font.init()
-    font = pygame.font.SysFont('comicsans', 60)
-    label = font.render('Tetris', 1, WHITE)
-    #draw label at the middle of the screen
-    surface.blit(label, (top_left_x, play_width/2-(label.get_width()/2), 30))
-
+def draw_grid(surface, grid):
+    #draw grid
     for i in range (len(grid)):
         for j in range(len(grid[i])):
             pygame.draw.rect(surface, grid[i][j], (top_left_x + j*block_size, top_left_y + i*block_size), 0)
     
-    pygame.draw.rect(surface, RED, (top_left_x, top_left_y, play_width, play_height))
+    pygame.draw.rect(surface, RED, (top_left_x, top_left_y, play_width, play_height), 4)
 
-    pygame.display.update()
  
 def clear_rows(grid, locked):
     pass
@@ -191,10 +183,20 @@ def draw_next_shape(shape, surface):
  
  
 def draw_window(surface):
-    pass
+    surface.fill(BLACK)
+    #title
+    pygame.font.init()
+    font = pygame.font.SysFont('comicsans', 60)
+    label = font.render('Tetris', 1, WHITE)
+    #draw label at the middle of the screen
+    surface.blit(label, (top_left_x, play_width/2-(label.get_width()/2), 30))
+
+    draw_grid(surface, grid)
+    pygame.display.update()
  
 def main():
     pass
+                
  
 def main_menu():
     pass
