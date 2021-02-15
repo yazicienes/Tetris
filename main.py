@@ -10,6 +10,7 @@ play_height = 600
 block_size = 30
 n_block = 10
 n_shapes = 7
+BLACK = (0, 0, 0)
 
 # SHAPE FORMATS
  #2D represent rotation
@@ -134,7 +135,17 @@ class Piece(object):
 
  
 def create_grid(locked_positions={}):
-    pass
+    """
+    locked_positions= dictionary ; position, color
+    """
+    grid = [ [ BLACK for x in range (10)] for x in range(20)]#20 rows 10 columns
+
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if (j, i) in locked_positions:
+                c = locked_positions[(j,i)]
+                grid[i][j] = c #change color in the grid
+    return grid
  
 def convert_shape_format(shape):
     pass
