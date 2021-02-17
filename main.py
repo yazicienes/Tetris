@@ -156,19 +156,21 @@ def create_grid(locked_positions={}):
 def convert_shape_format(shape):
     positions  = []
     shape_format = shape.shape[shape.rotation % len(shape.shape)] #modulus for going back to shape 0
-    for i, line in enumerate(shape_format):
+    for i,line in enumerate(shape_format):
         row = list(line)
-        for j, column in enumerate(row):
+        for j,column in enumerate(row):
             if column == '0':
-                positions.append((shape.x + j, shape.y + i )
+                positions.append((shape.x + j, shape.y + i ))
+
     for i, pos in enumerate(positions):
         positions[i] = (pos[0] - 2, pos[1] - 4)
+    return positions
  
 def valid_space(shape, grid):
     """
     check if we are moving in to a valid space
     """
-    accepted_pos = [[((j,i), for j in range (0,10) if grid (j,i) == WHITE] for i in range (20))]
+    accepted_pos = [[(j,i) for j in range(10) if grid[i][j] == BLACK] for i in range (20)]
     accepted_pos = [j for sub in accepted_pos for j in sub]
 
     formatted = convert_shape_format(shape)
@@ -239,13 +241,10 @@ def main(win):
     fall_time = 0
     fall_speed = 0.27
 
-    draw_window()
-    
     while run:
         grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime()
         clock.tick()
-
         if fall_time/1000 > fall_speed:
             fall_time = 0
             current_piece.y += 1
@@ -272,9 +271,10 @@ def main(win):
                 if event.key == pygame.K_UP:
                     current_piece.rotation +=1
                     if not (valid_space(current_piece, grid)):
-                        current_piece -= 1
-        shape_pos = convert_shape_format(current_piece)
-        for i in range(len(shape_pos)):
+                        current_piece.rotation -= 1
+        
+        shape_pos = convert_shape_format(current_piece) #get the shape positions
+        for i in range(len(shape_pos)): #draw the shape on the grid
             x, y = shape_pos[i]
             if y > -1:
                 grid [y][x] = current_piece.color
@@ -287,7 +287,7 @@ def main(win):
             current_piece = next_piece
             next_piece = get_shape()
             change_piece = False
-        draw_window()
+        draw_window(win, grid)
     
                     
                 
