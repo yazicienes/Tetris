@@ -172,9 +172,9 @@ def draw_text_middle(text, size, color, surface):
 def draw_grid_lines(surface, grid):
     #draw grid lines
     for i in range (len(grid)):
-        pygame.draw.line(surface, GRAY, (top_left_x, top_left_y+ i*block_size), (top_left_x+play_width, top_left_y+ i*play_height))
+        pygame.draw.line(surface, GRAY, (top_left_x, top_left_y+ i*block_size), (top_left_x+play_width, top_left_y+ i*block_size))
         for j in range (len(grid[i])):
-            pygame.draw.line(surface, GRAY, (top_left_x, top_left_y+ j*block_size), (top_left_x+ play_width, top_left_y+play_height))
+            pygame.draw.line(surface, GRAY, (top_left_x + j*block_size, top_left_y), (top_left_x+j*block_size, top_left_y+play_height))
  
 def clear_rows(grid, locked):
     pass
@@ -191,12 +191,12 @@ def draw_window(surface, grid):
     font = pygame.font.SysFont('comicsans', 60)
     label = font.render('Tetris', 1, WHITE)
     #draw label at the middle of the screen
-    surface.blit(label, (top_left_x, play_width/2-(label.get_width()/2), 30))
+    surface.blit(label, (top_left_x + play_width/2-(label.get_width()/2), 30))
 
     #draw grid
     for i in range (len(grid)):
         for j in range(len(grid[i])):
-            pygame.draw.rect(surface, grid[i][j], (top_left_x + j*block_size, top_left_y + i*block_size), 0)
+            pygame.draw.rect(surface, grid[i][j], (top_left_x + j*block_size, top_left_y + i*block_size, block_size, block_size), 0)
     
     pygame.draw.rect(surface, RED, (top_left_x, top_left_y, play_width, play_height), 4)
 
@@ -214,10 +214,11 @@ def main(win):
     clock = pygame.time.Clock()
     fall_time = 0
 
+    draw_window(win, grid)
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = false
+                run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     current_piece.x -= 1
@@ -235,7 +236,7 @@ def main(win):
                     current_piece.rotation +=1
                     if not (valid_space(current_piece, grid)):
                         current_piece -= 1
-    draw_window(win, grid)
+    
                     
                 
  
