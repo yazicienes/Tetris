@@ -180,7 +180,11 @@ def valid_space(shape, grid):
     
 
 def check_lost(positions):
-    pass
+    for pos in positions:
+        x, y = pos
+        if y < 1:
+            return True
+    return False
  
 def get_shape():
     return Piece(5, -2, random.choice(shapes))#piece at middle of the screen and above screen
